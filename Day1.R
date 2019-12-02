@@ -25,7 +25,7 @@ total_fuel <- purrr::map_dbl(module_masses, fuel_calculator) %>% sum()
 # Calculate the extra fuel
 
 total_fuel_calculator <- function(new_fuel){
-
+  
   while(new_fuel > 0){ # While-Loop needed because calculation has to stop if value is 0 or below
     
     new_fuel <- floor(new_fuel / 3) -2 # Apply Function from part 1
@@ -36,7 +36,7 @@ total_fuel_calculator <- function(new_fuel){
     
     else{total_fuel <-  new_fuel} # Create total if it doesn't exist yet
   }
-
+  
 }
 
 total_fuel_requirement <- purrr::map_dbl(module_masses, total_fuel_calculator) # Again iterate this function over input vector
