@@ -4,7 +4,6 @@ input_path <- "~/R Projects/adventofcode/2021/Input/2021_d1_input"
 
 input <- as.integer(readLines(input_path))
 
-
 # Part 1 ------------------------------------------------------------------
 
 get_in_or_decrease <- function(input){
