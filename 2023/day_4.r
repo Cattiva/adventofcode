@@ -1,15 +1,6 @@
 input <- readLines(here::here("2023", "data", "day4.txt"))
 
-parsed_input <- strsplit(
-  trimws(
-    gsub(
-      "Card\\s+\\d+:",
-      "",
-      input
-    )
-  ),
-  "\\s\\|\\s"
-)
+parsed_input <- strsplit(trimws(gsub("Card\\s+\\d+:", "", input)), "\\s\\|\\s")
 
 extract_numbers <- function(number_string) {
   as.integer(unlist(strsplit(number_string, "\\s+")))
@@ -42,22 +33,17 @@ part_1 <- sum(
   )
 )
 
-cards_stack <- c()
+all_matches <- tibble::tibble(
+  matches = purrr::map_dbl(parsed_input, extract_matches),
+  count = 1
+)
 
-get_new_cards <- function(no) {
-  card <- parsed_input[[no]]
-  matches <- extract_matches(card)
+tictoc::tic()
 
-  new_cards <- seq_len(matches) + no
-  return(new_cards)
+for (i in seq_len(nrow(all_matches))) {
+  if (all_matches$matches[i] > 0) {
+    all_matches$count[get_new_cards(i)] <- (all_matches$count[get_new_cards(i)] + all_matches$count[i])
+  }
 }
 
-get_copies <- function(card_no) {
-  cards_stack <- c(cards_stack, get_new_cards(card_no))
-
-  new_cards <- c(cards_stack, unlist(purrr::map(get_new_cards(card_no), get_copies)))
-
-  return(new_cards)
-}
-
-part_2 <- length(unlist(purrr::map(seq_len(length(parsed_input)), get_copies))) + length(parsed_input)
+part_2 <- sum(all_matches$count)
