@@ -24,6 +24,7 @@ races_raw <- tibble::tibble(
   )
 
 ways_to_win <- function(race_duration, length_race) {
+  # Quadratic Equation
   x1 <- (race_duration / 2) + sqrt((race_duration / 2)^2 - length_race)
   x2 <- (race_duration / 2) - sqrt((race_duration / 2)^2 - length_race)
 
