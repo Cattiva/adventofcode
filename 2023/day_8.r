@@ -27,8 +27,6 @@ directions_trans <- rep(dplyr::case_when(
   directions == "R" ~ "right"
 ), 1000000)
 
-location <- "AAA"
-
 get_steps <- function(location, endnode) {
 for (dir in seq_along(directions_trans)){
   location <- unlist(instructions[instructions$location == location, directions_trans[dir]])
@@ -45,3 +43,5 @@ all_nodes_to_check <- instructions$location[grep(".{2}A", instructions$location)
 part_2 <- Reduce(pracma::Lcm, purrr::map_dbl(all_nodes_to_check, get_steps, endnode = ".{2}Z"))
 
 tictoc::toc()
+
+
